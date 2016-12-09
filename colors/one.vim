@@ -230,24 +230,15 @@ if has('gui_running') || &t_Co == 88 || &t_Co == 256
     let l:decoration = ""
 
     if a:bg != ''
-      let l:bg = " guibg=#" . a:bg
-      if g:one_disable_cterm_support
-        let l:bg .= " ctermbg=" . <SID>rgb(a:bg)
-      endif
+      let l:bg = " guibg=#" . a:bg . (g:one_disable_cterm_support ? "" : " ctermbg=" . <SID>rgb(a:bg))
     endif
 
     if a:fg != ''
-      let l:fg = " guifg=#" . a:fg
-      if g:one_disable_cterm_support
-        let l:bg .= " ctermfg=" . <SID>rgb(a:fg)
-      endif
+      let l:fg = " guifg=#" . a:fg . (g:one_disable_cterm_support ? "" : " ctermfg=" . <SID>rgb(a:fg))
     endif
 
     if a:attr != ''
-      let l:decoration = " gui=" . l:attr
-      if g:one_disable_cterm_support
-        let l:bg .= " cterm=" . l:attr
-      endif
+      let l:decoration = " gui=" . l:attr . (g:one_disable_cterm_support ? "" : " cterm=" . l:attr)
     endif
 
     let l:exec = l:fg . l:bg . l:decoration
