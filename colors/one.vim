@@ -16,6 +16,10 @@ if !exists('g:one_allow_italics')
   let g:one_allow_italics = 0
 endif
 
+if !exists('g:one_disable_cterm_support')
+  let g:one_disable_cterm_support = 0
+endif
+
 if has('gui_running') || &t_Co == 88 || &t_Co == 256
   " functions
   " returns an approximate grey index for the given grey level
@@ -226,15 +230,24 @@ if has('gui_running') || &t_Co == 88 || &t_Co == 256
     let l:decoration = ""
 
     if a:bg != ''
-      let l:bg = " guibg=#" . a:bg . " ctermbg=" . <SID>rgb(a:bg)
+      let l:bg = " guibg=#" . a:bg
+      if g:one_disable_cterm_support
+        let l:bg .= " ctermbg=" . <SID>rgb(a:bg)
+      endif
     endif
 
     if a:fg != ''
-      let l:fg = " guifg=#" . a:fg . " ctermfg=" . <SID>rgb(a:fg)
+      let l:fg = " guifg=#" . a:fg
+      if g:one_disable_cterm_support
+        let l:bg .= " ctermfg=" . <SID>rgb(a:fg)
+      endif
     endif
 
     if a:attr != ''
-      let l:decoration = " gui=" . l:attr . " cterm=" . l:attr
+      let l:decoration = " gui=" . l:attr
+      if g:one_disable_cterm_support
+        let l:bg .= " cterm=" . l:attr
+      endif
     endif
 
     let l:exec = l:fg . l:bg . l:decoration
